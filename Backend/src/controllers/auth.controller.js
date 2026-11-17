@@ -7,6 +7,13 @@ import {
   createWelcomeEmail,
 } from "../templates/welcome-email.template.js";
 
+const isProduction = process.env.NODE_ENV === "production";
+const authCookieOptions = {
+  httpOnly: true,
+  sameSite: isProduction ? "none" : "lax",
+  secure: isProduction,
+};
+
 function createEmailVerificationUrl(email) {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: "1h",
@@ -107,10 +114,8 @@ export async function login(req, res) {
   );
 
   res.cookie("token", token, {
+    ...authCookieOptions,
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
   });
 
   res.status(200).json({
@@ -158,7 +163,7 @@ export async function getMe(req, res) {
 export async function logout(req, res) {
   const token = req.cookies.token;
   await redis.set(token, Date.now().toString(), "EX", 60 * 60 * 24 * 7);
-  res.clearCookie("token");
+  res.clearCookie("token", authCookieOptions);
 
   res.status(200).json({
     message: "Logged out successfully",
