@@ -1,0 +1,27 @@
+import express from "express";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
+import cors from "cors";
+import authRouter from "./routes/auth.routes.js";
+import chatRouter from "./routes/chat.routes.js";
+
+const app = express();
+
+//middlewares
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }),
+);
+
+//routes
+app.use("/api/auth", authRouter);
+app.use("/api/chats", chatRouter);
+
+export default app;

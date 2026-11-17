@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-auth-enter: auth-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes auth-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.curiosity-flow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.curiosity-cluster {
+  pointer-events: none;
+}
+
+.curiosity-path {
+  fill: none;
+  stroke: var(--curiosity-line);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-opacity: 0.085;
+  transition:
+    stroke 900ms ease,
+    stroke-opacity 900ms ease,
+    filter 900ms ease;
+}
+
+.curiosity-path-branch {
+  stroke-opacity: 0.065;
+}
+
+.curiosity-travel-glow {
+  fill: none;
+  stroke: var(--curiosity-line);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-dasharray: 0.035 1.965;
+  stroke-dashoffset: 2;
+  stroke-opacity: 0;
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--curiosity-line) 16%, transparent));
+  animation: curiosity-travel 16s ease-in-out 5s infinite;
+}
+
+.curiosity-node-halo {
+  fill: var(--curiosity-node);
+  opacity: 0.03;
+  animation: curiosity-pulse 9s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.curiosity-node {
+  fill: var(--curiosity-node);
+  fill-opacity: 0.075;
+  stroke: var(--curiosity-node);
+  stroke-opacity: 0.1;
+  stroke-width: 1;
+  animation: curiosity-pulse 8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  pointer-events: all;
+  transition:
+    fill-opacity 700ms ease,
+    stroke-opacity 700ms ease;
+}
+
+.curiosity-cluster:has(.curiosity-node:hover) .curiosity-path {
+  stroke: var(--curiosity-line);
+  stroke-opacity: 0.12;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--curiosity-line) 22%, transparent));
+}
+
+.curiosity-cluster:has(.curiosity-node:hover) .curiosity-node-halo {
+  opacity: 0.07;
+}
+
+.curiosity-cluster:has(.curiosity-node:hover) .curiosity-node {
+  fill-opacity: 0.16;
+  stroke-opacity: 0.2;
+}
+
+@keyframes curiosity-travel {
+  0%,
+  12% {
+    stroke-dashoffset: 2;
+    stroke-opacity: 0;
+  }
+
+  18% {
+    stroke-opacity: 0.09;
+  }
+
+  82% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 0.09;
+  }
+
+  90%,
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 0;
+  }
+}
+
+@keyframes curiosity-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@theme inline {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-icon-surface: var(--icon-surface);
+  --color-primary: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-surface: var(--tertiary-surface);
+  --color-info-background: var(--info-background);
+  --color-info-border: var(--info-border);
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #ebeff4;
+  --surface: #f0f2f6;
+  --surface-dim: #e4e9f0;
+  --card: #f4f6f9;
+  --card-hover: #e7ecf3;
+  --icon-surface: #e0ebf5;
+  --text-primary: #253449;
+  --text-muted: #64748b;
+  --border: rgba(15, 23, 42, 0.11);
+  --accent: #0274ad;
+  --accent-foreground: #ffffff;
+  --tertiary: #b86100;
+  --tertiary-surface: #fff1df;
+  --info-background: #eaf3fb;
+  --info-border: #c9dff0;
+  --error: #b42318;
+  --curiosity-line: #0284c7;
+  --curiosity-node: #0284c7;
+  --hero-gradient:
+    radial-gradient(ellipse at 18% 82%, rgb(2 132 199 / 0.08), transparent 54%),
+    linear-gradient(145deg, #f2f4f7 0%, #ebeff4 64%, #e6ecf3 100%);
+}
+
+.auth-error {
+  color: var(--error);
+}
+
+.brand-mark {
+  position: relative;
+  isolation: isolate;
+}
+
+.brand-mark::before {
+  position: absolute;
+  z-index: -1;
+  inset: -35%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(2 132 199 / 0.24), transparent 68%);
+  content: "";
+  filter: blur(9px);
+}
+
+.brand-mark--animated::before {
+  animation: brand-glow-breathe 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes brand-glow-breathe {
+  0%,
+  100% {
+    filter: blur(8px);
+    opacity: 0.65;
+    transform: scale(0.92);
+  }
+
+  50% {
+    filter: blur(13px);
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+.brand-mark img {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 3px rgb(2 132 199 / 0.22));
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #0d0f16;
+  --surface: #12151e;
+  --surface-dim: #191c25;
+  --card: #151821;
+  --card-hover: #1b1e28;
+  --icon-surface: #22232f;
+  --text-primary: #eeedf1;
+  --text-muted: #a4a5b0;
+  --border: rgba(235, 230, 240, 0.075);
+  --accent: #b7a5cb;
+  --accent-foreground: #211d28;
+  --tertiary: #d3a66f;
+  --tertiary-surface: rgba(211, 166, 111, 0.12);
+  --info-background: rgba(183, 165, 203, 0.07);
+  --info-border: rgba(183, 165, 203, 0.17);
+  --error: #fecaca;
+  --curiosity-line: #b7a5cb;
+  --curiosity-node: #c4b1d5;
+  --hero-gradient:
+    radial-gradient(ellipse at 14% 78%, rgb(108 91 126 / 0.13), transparent 54%),
+    linear-gradient(145deg, #12141b 0%, #0d0f16 64%, #11121a 100%);
+}
+
+.dark .brand-mark::before {
+  background: radial-gradient(circle, rgb(2 132 199 / 0.38), transparent 68%);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  button {
+    font: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .curiosity-path,
+  .curiosity-node,
+  .curiosity-node-halo {
+    animation: none !important;
+  }
+
+  .curiosity-travel-glow {
+    animation: none !important;
+    stroke-opacity: 0;
+  }
+}
