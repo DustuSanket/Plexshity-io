@@ -29,7 +29,7 @@ The repository does not currently include a full-page screenshot of the home scr
 - **Frontend:** React, Vite, Redux Toolkit, Tailwind CSS
 - **Backend:** Node.js, Express, MongoDB, Redis
 - **AI and search:** Google Gemini, OpenRouter, Tavily
-- **Email:** Resend API
+- **Email:** Brevo API
 
 ## Requirements
 
@@ -37,7 +37,7 @@ The repository does not currently include a full-page screenshot of the home scr
 - MongoDB
 - Redis
 - API credentials for the AI/search features you want to use
-- A Resend API key and a verified sender address for verification email delivery
+- A Brevo API key and a verified sender address for verification email delivery
 
 ## Local setup
 
@@ -69,7 +69,7 @@ GEMINI_API_KEY=your-gemini-api-key
 OPENROUTER_API_KEY=your-openrouter-api-key
 TAVILY_API_KEY=your-tavily-api-key
 
-RESEND_API_KEY=your-resend-api-key
+BREVO_API_KEY=your-brevo-api-key
 FROM_EMAIL=Plexshity <verify@your-verified-domain.com>
 ```
 
@@ -115,7 +115,7 @@ Create a Render Web Service using `Backend` as the root directory:
 
 Configure the backend environment variables from the `Backend/.env` example above. Set `NODE_ENV=production`, `FRONTEND_URL` to your deployed frontend origin, and `BACKEND_URL` to your deployed API origin.
 
-Configure `RESEND_API_KEY` and `FROM_EMAIL` in Render. Verify the sender domain/address with Resend and use an address from that verified domain. Keep the API key private and only in backend environment variables.
+Configure `BREVO_API_KEY` and `FROM_EMAIL` in Render. Verify the sender domain/address with Brevo and use an address from that verified domain. Keep the API key private and only in backend environment variables.
 
 ### Frontend on Vercel
 
