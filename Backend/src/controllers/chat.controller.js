@@ -1,6 +1,7 @@
 import { generateResponse, generateChatTitle } from "../services/ai.service.js";
 import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
+import userModel from "../models/user.model.js";
 
 /**
  * @desc    Creates a chat when needed, saves the user's message, and returns an AI reply
@@ -9,6 +10,8 @@ import messageModel from "../models/message.model.js";
  */
 export async function sendMessage(req, res) {
   const { message, chat: chatId } = req.body;
+  const user = await userModel.findById(req.user.id).select("fullName").lean();
+  const userName = user?.fullName;
 
   let chat = null;
   let titlePromise = null;
@@ -59,11 +62,11 @@ export async function sendMessage(req, res) {
     });
 
     [result] = await Promise.all([
-      generateResponse(allMessages),
+      generateResponse(allMessages, userName),
       titleUpdatePromise,
     ]);
   } else {
-    result = await generateResponse(allMessages);
+    result = await generateResponse(allMessages, userName);
   }
 
   const aiMessage = await messageModel.create({
