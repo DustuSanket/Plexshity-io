@@ -1,6 +1,6 @@
 # Plexshity.io
 
-**A home for your curiosity.** Plexshity is an AI-powered chat app for exploring questions, searching for current information, and keeping useful conversations organized.
+**A home for your curiosity.** Plexshity.io is an AI-powered chat assistant for exploring questions, getting answers with web search for current information, and saving useful conversations. Build an organized library of ideas and discoveries in a responsive workspace with light and dark themes.
 
 ## Preview
 
