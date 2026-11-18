@@ -247,14 +247,14 @@ function AuthPanel({ activeTab, onTabChange }) {
         By continuing, you agree to our{" "}
         <a
           className="text-accent underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
-          href="#terms"
+          href="/terms.md"
         >
           Terms of Service
         </a>{" "}
         and{" "}
         <a
           className="text-accent underline decoration-accent/50 underline-offset-2 hover:decoration-accent"
-          href="#privacy"
+          href="/privacy.md"
         >
           Privacy Policy
         </a>
