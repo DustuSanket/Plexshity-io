@@ -201,13 +201,20 @@ export async function verifyEmail(req, res) {
       });
     }
 
-    user.verified = true;
+    const alreadyVerified = user.verified;
 
-    await user.save();
+    if (!alreadyVerified) {
+      user.verified = true;
+      await user.save();
+    }
 
     const confirmationUrl = new URL(
       "/email-verified",
       process.env.FRONTEND_URL,
+    );
+    confirmationUrl.searchParams.set(
+      "status",
+      alreadyVerified ? "already-verified" : "verified",
     );
     return res.redirect(303, confirmationUrl.href);
   } catch (err) {

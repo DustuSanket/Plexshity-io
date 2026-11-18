@@ -1,6 +1,9 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 export default function EmailVerified() {
+  const [searchParams] = useSearchParams();
+  const alreadyVerified = searchParams.get("status") === "already-verified";
+
   return (
     <main className="min-h-svh bg-canvas px-5 py-8 text-primary sm:px-8 sm:py-12">
       <div className="mx-auto w-full max-w-[500px]">
@@ -44,17 +47,20 @@ export default function EmailVerified() {
 
           <div className="text-center">
             <p className="mb-3 text-xs font-medium tracking-[0.12em] text-accent">
-              YOU’RE ALL SET
+              {alreadyVerified ? "ALREADY VERIFIED" : "YOU’RE ALL SET"}
             </p>
             <h1
               className="text-2xl font-semibold tracking-tight sm:text-[1.75rem]"
               id="email-verified-title"
             >
-              Thanks for verifying your email
+              {alreadyVerified
+                ? "Your email is already verified"
+                : "Thanks for verifying your email"}
             </h1>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-muted">
-              Your email is confirmed. You can close this page and return to
-              Plexshity to log in, or continue with the button below.
+              {alreadyVerified
+                ? "Your account is ready. Go to Plexshity.io to log in and start exploring."
+                : "Your email is confirmed. You can close this page and return to Plexshity to log in, or continue with the button below."}
             </p>
           </div>
 
@@ -62,7 +68,7 @@ export default function EmailVerified() {
             className="mt-7 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-accent-foreground transition duration-200 hover:brightness-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             to="/home"
           >
-            Go to login
+            {alreadyVerified ? "Go to Plexshity.io" : "Go to login"}
             <span aria-hidden="true">→</span>
           </Link>
         </section>
