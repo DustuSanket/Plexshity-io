@@ -32,7 +32,11 @@ export default function Register() {
     }
 
     navigate("/verify-email", {
-      state: { email, reason: "registration" },
+      state: {
+        email,
+        reason: "registration",
+        emailDeliveryFailed: result.data.emailSent === false,
+      },
     });
   }
 

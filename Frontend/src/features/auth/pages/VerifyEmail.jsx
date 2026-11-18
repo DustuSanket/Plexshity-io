@@ -40,6 +40,7 @@ export default function VerifyEmail() {
   }
 
   const isLoginAttempt = state?.reason === "login";
+  const emailDeliveryFailed = state?.emailDeliveryFailed;
 
   return (
     <main className="min-h-svh bg-canvas px-5 py-8 text-primary sm:px-8 sm:py-12">
@@ -96,7 +97,9 @@ export default function VerifyEmail() {
               Check your inbox
             </h1>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-muted">
-              {isLoginAttempt
+              {emailDeliveryFailed
+                ? "Your account was created, but we couldn’t send the verification email. Please try resending it below."
+                : isLoginAttempt
                 ? "This email address still needs to be verified. Open the link we sent to finish setting up your account."
                 : "We sent you a link to verify your email and finish setting up your account."}
             </p>

@@ -51,13 +51,23 @@ export async function register(req, res) {
     createEmailVerificationUrl(user.email),
   );
 
-  await sendEmail({
-    to: email,
-    ...welcomeEmail,
-  });
+  let emailSent = true;
+  try {
+    await sendEmail({
+      to: email,
+      ...welcomeEmail,
+    });
+  } catch (error) {
+    emailSent = false;
+    console.error("Verification email could not be sent", error);
+  }
+
   return res.status(201).json({
-    message: "User created successfully",
+    message: emailSent
+      ? "User created successfully"
+      : "Your account was created, but the verification email could not be sent. Please try resending it.",
     success: true,
+    emailSent,
     user: {
       email: user.email,
       fullname: user.fullName,
