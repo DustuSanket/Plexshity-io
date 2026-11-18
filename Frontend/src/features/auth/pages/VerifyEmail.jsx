@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, Navigate, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import { resendVerificationEmail } from "../services/auth.api";
+import { useAuth } from "../hooks/useAuth";
 
 export default function VerifyEmail() {
   const { state } = useLocation();
+  const { resendVerificationHandler } = useAuth();
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
   const email = state?.email ?? "";
@@ -27,13 +28,12 @@ export default function VerifyEmail() {
     setErrorMessage("");
 
     try {
-      const response = await resendVerificationEmail(email);
-      setMessage(response.message);
-    } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message ||
-          "We couldn’t send the email just now. Please try again.",
-      );
+      const result = await resendVerificationHandler(email);
+      if (result.success) {
+        setMessage(result.data.message);
+      } else {
+        setErrorMessage(result.message);
+      }
     } finally {
       setIsSending(false);
     }
